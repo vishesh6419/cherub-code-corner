@@ -7,6 +7,11 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import AISupport from "./pages/AISupport";
+import BookAppointment from "./pages/BookAppointment";
+import Assessment from "./pages/Assessment";
+import CrisisSupport from "./pages/CrisisSupport";
+import Resources from "./pages/Resources";
+import Forum from "./pages/Forum";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,6 +27,11 @@ const App = () => (
           <Route path="/auth" element={<Auth />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/ai-support" element={<AISupport />} />
+          <Route path="/book-appointment" element={<BookAppointment />} />
+          <Route path="/assessment" element={<Assessment />} />
+          <Route path="/crisis-support" element={<CrisisSupport />} />
+          <Route path="/resources" element={<Resources />} />
+          <Route path="/forum" element={<Forum />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

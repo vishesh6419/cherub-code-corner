@@ -13,7 +13,8 @@ import {
   AlertTriangle,
   Heart,
   Activity,
-  Phone
+  Phone,
+  Settings
 } from "lucide-react";
 
 export default function Dashboard() {
@@ -108,9 +109,19 @@ export default function Dashboard() {
                 </Badge>
               </p>
             </div>
-            <div className="flex items-center gap-2">
-              <Heart className="h-5 w-5 text-red-500" />
-              <span className="text-sm text-muted-foreground">Your mental health matters</span>
+            <div className="flex items-center gap-4">
+              <Button
+                variant="outline"
+                onClick={() => navigate('/profile')}
+                className="flex items-center gap-2"
+              >
+                <Settings className="w-4 h-4" />
+                Profile
+              </Button>
+              <div className="flex items-center gap-2">
+                <Heart className="h-5 w-5 text-red-500" />
+                <span className="text-sm text-muted-foreground">Your mental health matters</span>
+              </div>
             </div>
           </div>
         </div>

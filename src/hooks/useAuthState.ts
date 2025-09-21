@@ -1,16 +1,22 @@
-import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { User, Session } from "@supabase/supabase-js";
+import { useState, useEffect } from 'react';
+import { User, Session } from '@supabase/supabase-js';
+import { supabase } from '@/integrations/supabase/client';
 
 interface Profile {
   id: string;
   user_id: string;
-  full_name?: string;
-  role?: 'student' | 'counselor' | 'admin' | 'peer_volunteer';
-  college_name?: string;
-  department?: string;
-  year_of_study?: number;
-  onboarding_completed?: boolean;
+  email: string;
+  full_name: string;
+  college_name: string;
+  department: string;
+  year_of_study: number;
+  role: 'student' | 'counselor' | 'admin' | 'peer_volunteer';
+  phone?: string;
+  emergency_contact?: string;
+  language_preference: string;
+  onboarding_completed: boolean;
+  created_at: string;
+  updated_at: string;
 }
 
 export function useAuthState() {
@@ -19,82 +25,71 @@ export function useAuthState() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // Set up auth state listener
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
+  const fetchProfile = async (userId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('user_id', userId)
+        .maybeSingle();
 
-        if (session?.user) {
-          // Fetch user profile
-          setTimeout(async () => {
-            try {
-              const { data: profileData, error } = await supabase
-                .from('profiles')
-                .select('*')
-                .eq('user_id', session.user.id)
-                .single();
-
-              if (error && error.code !== 'PGRST116') {
-                console.error('Error fetching profile:', error);
-              } else {
-                setProfile(profileData);
-              }
-            } catch (error) {
-              console.error('Error fetching profile:', error);
-            }
-          }, 0);
-        } else {
-          setProfile(null);
-        }
-
-        setLoading(false);
+      if (error && error.code !== 'PGRST116') {
+        console.error('Error fetching profile:', error);
+        return;
       }
-    );
 
+      setProfile(data);
+    } catch (error) {
+      console.error('Error fetching profile:', error);
+    }
+  };
+
+  useEffect(() => {
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
       
       if (session?.user) {
-        setTimeout(async () => {
-          try {
-            const { data: profileData, error } = await supabase
-              .from('profiles')
-              .select('*')
-              .eq('user_id', session.user.id)
-              .single();
-
-            if (error && error.code !== 'PGRST116') {
-              console.error('Error fetching profile:', error);
-            } else {
-              setProfile(profileData);
-            }
-          } catch (error) {
-            console.error('Error fetching profile:', error);
-          }
-          setLoading(false);
+        setTimeout(() => {
+          fetchProfile(session.user.id);
         }, 0);
-      } else {
+      }
+      
+      setLoading(false);
+    });
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setSession(session);
+        setUser(session?.user ?? null);
+        
+        if (session?.user) {
+          setTimeout(() => {
+            fetchProfile(session.user.id);
+          }, 0);
+        } else {
+          setProfile(null);
+        }
+        
         setLoading(false);
       }
-    });
+    );
 
     return () => subscription.unsubscribe();
   }, []);
-
-  const signOut = async () => {
-    await supabase.auth.signOut();
-  };
 
   return {
     user,
     session,
     profile,
     loading,
-    signOut,
     isAuthenticated: !!user,
+    refreshProfile: () => {
+      if (user) {
+        fetchProfile(user.id);
+      }
+    }
   };
 }

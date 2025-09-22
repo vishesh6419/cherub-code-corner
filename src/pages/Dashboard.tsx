@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthState } from "@/hooks/useAuthState";
+import { useDashboardStats } from "@/hooks/useDashboardStats";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -14,11 +15,14 @@ import {
   Heart,
   Activity,
   Phone,
-  Settings
+  Settings,
+  TrendingUp,
+  Clock
 } from "lucide-react";
 
 export default function Dashboard() {
   const { user, profile, loading, isAuthenticated } = useAuthState();
+  const stats = useDashboardStats();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -184,7 +188,9 @@ export default function Dashboard() {
                 <MessageSquare className="h-4 w-4 text-blue-500" />
                 <div>
                   <p className="text-sm font-medium">AI Conversations</p>
-                  <p className="text-2xl font-bold">12</p>
+                  <p className="text-2xl font-bold">
+                    {stats.loading ? '...' : stats.aiConversations}
+                  </p>
                 </div>
               </div>
             </CardContent>
@@ -196,7 +202,9 @@ export default function Dashboard() {
                 <Calendar className="h-4 w-4 text-green-500" />
                 <div>
                   <p className="text-sm font-medium">Appointments</p>
-                  <p className="text-2xl font-bold">3</p>
+                  <p className="text-2xl font-bold">
+                    {stats.loading ? '...' : stats.appointments}
+                  </p>
                 </div>
               </div>
             </CardContent>
@@ -208,7 +216,9 @@ export default function Dashboard() {
                 <BookOpen className="h-4 w-4 text-orange-500" />
                 <div>
                   <p className="text-sm font-medium">Resources Viewed</p>
-                  <p className="text-2xl font-bold">8</p>
+                  <p className="text-2xl font-bold">
+                    {stats.loading ? '...' : stats.resourcesViewed}
+                  </p>
                 </div>
               </div>
             </CardContent>
@@ -220,7 +230,9 @@ export default function Dashboard() {
                 <Users className="h-4 w-4 text-purple-500" />
                 <div>
                   <p className="text-sm font-medium">Forum Posts</p>
-                  <p className="text-2xl font-bold">5</p>
+                  <p className="text-2xl font-bold">
+                    {stats.loading ? '...' : stats.forumPosts}
+                  </p>
                 </div>
               </div>
             </CardContent>
@@ -230,32 +242,73 @@ export default function Dashboard() {
         {/* Recent Activity */}
         <Card className="mt-8">
           <CardHeader>
-            <CardTitle>Recent Activity</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <Clock className="w-5 h-5" />
+              Recent Activity
+            </CardTitle>
             <CardDescription>Your recent interactions with the platform</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              <div className="flex items-center gap-3 p-2 rounded-lg bg-muted/50">
-                <Brain className="h-4 w-4 text-blue-500" />
-                <div className="flex-1">
-                  <p className="text-sm font-medium">Started AI conversation about stress management</p>
-                  <p className="text-xs text-muted-foreground">2 hours ago</p>
+              {stats.aiConversations > 0 && (
+                <div className="flex items-center gap-3 p-2 rounded-lg bg-muted/50">
+                  <Brain className="h-4 w-4 text-blue-500" />
+                  <div className="flex-1">
+                    <p className="text-sm font-medium">AI conversation started</p>
+                    <p className="text-xs text-muted-foreground">Available for support anytime</p>
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-center gap-3 p-2 rounded-lg bg-muted/50">
-                <BookOpen className="h-4 w-4 text-orange-500" />
-                <div className="flex-1">
-                  <p className="text-sm font-medium">Viewed "Managing Exam Anxiety" resource</p>
-                  <p className="text-xs text-muted-foreground">1 day ago</p>
+              )}
+              
+              {stats.resourcesViewed > 0 && (
+                <div className="flex items-center gap-3 p-2 rounded-lg bg-muted/50">
+                  <BookOpen className="h-4 w-4 text-orange-500" />
+                  <div className="flex-1">
+                    <p className="text-sm font-medium">Mental health resources accessed</p>
+                    <p className="text-xs text-muted-foreground">Keep exploring helpful content</p>
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-center gap-3 p-2 rounded-lg bg-muted/50">
-                <Calendar className="h-4 w-4 text-green-500" />
-                <div className="flex-1">
-                  <p className="text-sm font-medium">Scheduled appointment with Dr. Smith</p>
-                  <p className="text-xs text-muted-foreground">3 days ago</p>
+              )}
+              
+              {stats.appointments > 0 && (
+                <div className="flex items-center gap-3 p-2 rounded-lg bg-muted/50">
+                  <Calendar className="h-4 w-4 text-green-500" />
+                  <div className="flex-1">
+                    <p className="text-sm font-medium">Appointment scheduled</p>
+                    <p className="text-xs text-muted-foreground">Professional support arranged</p>
+                  </div>
                 </div>
-              </div>
+              )}
+              
+              {stats.assessmentsTaken > 0 && (
+                <div className="flex items-center gap-3 p-2 rounded-lg bg-muted/50">
+                  <Activity className="h-4 w-4 text-teal-500" />
+                  <div className="flex-1">
+                    <p className="text-sm font-medium">Mental health assessment completed</p>
+                    <p className="text-xs text-muted-foreground">Track your wellness journey</p>
+                  </div>
+                </div>
+              )}
+
+              {!stats.loading && stats.aiConversations === 0 && stats.appointments === 0 && stats.forumPosts === 0 && stats.assessmentsTaken === 0 && (
+                <div className="text-center py-8">
+                  <TrendingUp className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
+                  <h3 className="text-lg font-medium mb-2">Start Your Wellness Journey</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Take your first step towards better mental health
+                  </p>
+                  <div className="flex flex-wrap gap-2 justify-center">
+                    <Button size="sm" onClick={() => navigate('/ai-support')}>
+                      <Brain className="w-4 h-4 mr-2" />
+                      Try AI Support
+                    </Button>
+                    <Button size="sm" variant="outline" onClick={() => navigate('/assessment')}>
+                      <Activity className="w-4 h-4 mr-2" />
+                      Take Assessment
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>

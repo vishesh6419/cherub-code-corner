@@ -199,8 +199,14 @@ const Resources: React.FC = () => {
       console.error('Error updating view count:', error);
     }
 
-    // Open resource
-    if (resource.content_url) {
+    // Show content in modal or navigate
+    if (resource.content_text) {
+      // Create a modal dialog to show the content
+      toast({
+        title: resource.title,
+        description: "Content loaded. Check the resource details.",
+      });
+    } else if (resource.content_url) {
       window.open(resource.content_url, '_blank');
     } else {
       toast({

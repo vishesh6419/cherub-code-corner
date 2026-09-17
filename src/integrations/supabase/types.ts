@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "13.0.5"
+    PostgrestVersion: "14.5"
   }
   public: {
     Tables: {
@@ -28,7 +28,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
-          conversation_data: Json
+          conversation_data?: Json
           created_at?: string | null
           emergency_flags?: string[] | null
           id?: string
@@ -57,14 +57,14 @@ export type Database = {
         Row: {
           appointment_date: string
           appointment_time: string
-          counselor_id: string
-          counselor_notes: string | null
           created_at: string | null
           duration_minutes: number | null
           id: string
+          institution_subscription_id: string | null
           mode: string | null
-          notes: string | null
-          status: Database["public"]["Enums"]["appointment_status"] | null
+          provider_id: string
+          provider_notes: string | null
+          status: Database["public"]["Enums"]["appointment_status"]
           student_id: string
           student_notes: string | null
           updated_at: string | null
@@ -72,14 +72,14 @@ export type Database = {
         Insert: {
           appointment_date: string
           appointment_time: string
-          counselor_id: string
-          counselor_notes?: string | null
           created_at?: string | null
           duration_minutes?: number | null
           id?: string
+          institution_subscription_id?: string | null
           mode?: string | null
-          notes?: string | null
-          status?: Database["public"]["Enums"]["appointment_status"] | null
+          provider_id: string
+          provider_notes?: string | null
+          status?: Database["public"]["Enums"]["appointment_status"]
           student_id: string
           student_notes?: string | null
           updated_at?: string | null
@@ -87,63 +87,27 @@ export type Database = {
         Update: {
           appointment_date?: string
           appointment_time?: string
-          counselor_id?: string
-          counselor_notes?: string | null
           created_at?: string | null
           duration_minutes?: number | null
           id?: string
+          institution_subscription_id?: string | null
           mode?: string | null
-          notes?: string | null
-          status?: Database["public"]["Enums"]["appointment_status"] | null
+          provider_id?: string
+          provider_notes?: string | null
+          status?: Database["public"]["Enums"]["appointment_status"]
           student_id?: string
           student_notes?: string | null
           updated_at?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "appointments_counselor_id_fkey"
-            columns: ["counselor_id"]
+            foreignKeyName: "appointments_provider_id_fkey"
+            columns: ["provider_id"]
             isOneToOne: false
-            referencedRelation: "counselors"
+            referencedRelation: "providers"
             referencedColumns: ["id"]
           },
         ]
-      }
-      counselors: {
-        Row: {
-          availability_schedule: Json | null
-          created_at: string | null
-          experience_years: number | null
-          id: string
-          is_available: boolean | null
-          max_appointments_per_day: number | null
-          qualification: string | null
-          specialization: string[] | null
-          user_id: string
-        }
-        Insert: {
-          availability_schedule?: Json | null
-          created_at?: string | null
-          experience_years?: number | null
-          id?: string
-          is_available?: boolean | null
-          max_appointments_per_day?: number | null
-          qualification?: string | null
-          specialization?: string[] | null
-          user_id: string
-        }
-        Update: {
-          availability_schedule?: Json | null
-          created_at?: string | null
-          experience_years?: number | null
-          id?: string
-          is_available?: boolean | null
-          max_appointments_per_day?: number | null
-          qualification?: string | null
-          specialization?: string[] | null
-          user_id?: string
-        }
-        Relationships: []
       }
       crisis_support_requests: {
         Row: {
@@ -166,7 +130,7 @@ export type Database = {
           description: string
           id?: string
           location?: string | null
-          priority: Database["public"]["Enums"]["support_request_priority"]
+          priority?: Database["public"]["Enums"]["support_request_priority"]
           resolution_time?: string | null
           response_time?: string | null
           status?: string | null
@@ -273,6 +237,39 @@ export type Database = {
           },
         ]
       }
+      institutions: {
+        Row: {
+          city: string | null
+          created_at: string | null
+          id: string
+          is_active: boolean
+          name: string
+          state: string | null
+          subscription_id: string
+          subscription_tier: string
+        }
+        Insert: {
+          city?: string | null
+          created_at?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+          state?: string | null
+          subscription_id?: string
+          subscription_tier?: string
+        }
+        Update: {
+          city?: string | null
+          created_at?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          state?: string | null
+          subscription_id?: string
+          subscription_tier?: string
+        }
+        Relationships: []
+      }
       mental_health_assessments: {
         Row: {
           assessment_type: string
@@ -324,10 +321,12 @@ export type Database = {
           emergency_contact: string | null
           full_name: string | null
           id: string
+          institution_id: string | null
+          institution_subscription_id: string | null
           language_preference: string | null
           onboarding_completed: boolean | null
           phone: string | null
-          role: Database["public"]["Enums"]["user_role"] | null
+          role: Database["public"]["Enums"]["user_role"]
           updated_at: string | null
           user_id: string
           year_of_study: number | null
@@ -340,10 +339,12 @@ export type Database = {
           emergency_contact?: string | null
           full_name?: string | null
           id?: string
+          institution_id?: string | null
+          institution_subscription_id?: string | null
           language_preference?: string | null
           onboarding_completed?: boolean | null
           phone?: string | null
-          role?: Database["public"]["Enums"]["user_role"] | null
+          role?: Database["public"]["Enums"]["user_role"]
           updated_at?: string | null
           user_id: string
           year_of_study?: number | null
@@ -356,15 +357,99 @@ export type Database = {
           emergency_contact?: string | null
           full_name?: string | null
           id?: string
+          institution_id?: string | null
+          institution_subscription_id?: string | null
           language_preference?: string | null
           onboarding_completed?: boolean | null
           phone?: string | null
-          role?: Database["public"]["Enums"]["user_role"] | null
+          role?: Database["public"]["Enums"]["user_role"]
           updated_at?: string | null
           user_id?: string
           year_of_study?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_institution_id_fkey"
+            columns: ["institution_id"]
+            isOneToOne: false
+            referencedRelation: "institutions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      providers: {
+        Row: {
+          bio: string | null
+          certification_url: string | null
+          clinic_name: string | null
+          created_at: string | null
+          email: string
+          experience_years: number | null
+          id: string
+          institution_id: string | null
+          is_available: boolean
+          is_verified: boolean
+          languages: string[] | null
+          name: string
+          phone: string | null
+          profession: Database["public"]["Enums"]["provider_profession"]
+          qualification: string | null
+          session_modes: string[] | null
+          specialization: string[] | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          bio?: string | null
+          certification_url?: string | null
+          clinic_name?: string | null
+          created_at?: string | null
+          email: string
+          experience_years?: number | null
+          id?: string
+          institution_id?: string | null
+          is_available?: boolean
+          is_verified?: boolean
+          languages?: string[] | null
+          name: string
+          phone?: string | null
+          profession?: Database["public"]["Enums"]["provider_profession"]
+          qualification?: string | null
+          session_modes?: string[] | null
+          specialization?: string[] | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          bio?: string | null
+          certification_url?: string | null
+          clinic_name?: string | null
+          created_at?: string | null
+          email?: string
+          experience_years?: number | null
+          id?: string
+          institution_id?: string | null
+          is_available?: boolean
+          is_verified?: boolean
+          languages?: string[] | null
+          name?: string
+          phone?: string | null
+          profession?: Database["public"]["Enums"]["provider_profession"]
+          qualification?: string | null
+          session_modes?: string[] | null
+          specialization?: string[] | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "providers_institution_id_fkey"
+            columns: ["institution_id"]
+            isOneToOne: false
+            referencedRelation: "institutions"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       resources: {
         Row: {
@@ -386,7 +471,7 @@ export type Database = {
         Insert: {
           category?: string | null
           content_text?: string | null
-          content_type: Database["public"]["Enums"]["resource_type"]
+          content_type?: Database["public"]["Enums"]["resource_type"]
           content_url?: string | null
           created_at?: string | null
           created_by?: string | null
@@ -417,18 +502,57 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          created_at: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
+      app_role: "admin" | "moderator" | "user"
       appointment_status: "pending" | "confirmed" | "cancelled" | "completed"
+      provider_profession:
+        | "psychologist"
+        | "counselor"
+        | "therapist"
+        | "psychiatrist"
+        | "clinical_doctor"
       resource_type: "video" | "audio" | "article" | "guide" | "exercise"
       support_request_priority: "low" | "medium" | "high" | "urgent"
-      user_role: "student" | "counselor" | "admin" | "peer_volunteer"
+      user_role:
+        | "student"
+        | "provider"
+        | "counselor"
+        | "admin"
+        | "peer_volunteer"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -444,12 +568,12 @@ export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
         DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -473,11 +597,11 @@ export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -498,11 +622,11 @@ export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -523,11 +647,11 @@ export type Enums<
   DefaultSchemaEnumNameOrOptions extends
     | keyof DefaultSchema["Enums"]
     | { schema: keyof DatabaseWithoutInternals },
-  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+  EnumName extends (DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -540,11 +664,11 @@ export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof DatabaseWithoutInternals },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+  CompositeTypeName extends (PublicCompositeTypeNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
+    : never) = never,
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -556,10 +680,24 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      app_role: ["admin", "moderator", "user"],
       appointment_status: ["pending", "confirmed", "cancelled", "completed"],
+      provider_profession: [
+        "psychologist",
+        "counselor",
+        "therapist",
+        "psychiatrist",
+        "clinical_doctor",
+      ],
       resource_type: ["video", "audio", "article", "guide", "exercise"],
       support_request_priority: ["low", "medium", "high", "urgent"],
-      user_role: ["student", "counselor", "admin", "peer_volunteer"],
+      user_role: [
+        "student",
+        "provider",
+        "counselor",
+        "admin",
+        "peer_volunteer",
+      ],
     },
   },
 } as const

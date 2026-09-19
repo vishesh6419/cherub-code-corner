@@ -10,7 +10,9 @@ interface Profile {
   college_name: string;
   department: string;
   year_of_study: number;
-  role: 'student' | 'counselor' | 'admin' | 'peer_volunteer';
+  role: 'student' | 'provider' | 'counselor' | 'admin' | 'peer_volunteer';
+  institution_id?: string | null;
+  institution_subscription_id?: string | null;
   phone?: string;
   emergency_contact?: string;
   language_preference: string;

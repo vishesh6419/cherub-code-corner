@@ -18,7 +18,7 @@ interface ProfileData {
   college_name: string;
   department: string;
   year_of_study: number;
-  role: 'student' | 'counselor' | 'admin' | 'peer_volunteer';
+  role: 'student' | 'provider' | 'counselor' | 'admin' | 'peer_volunteer';
 }
 
 const Profile: React.FC = () => {
@@ -251,7 +251,7 @@ const Profile: React.FC = () => {
                       value={profileData.role}
                       onValueChange={(value) => setProfileData({
                         ...profileData,
-                        role: value as 'student' | 'counselor' | 'admin' | 'peer_volunteer'
+                        role: value as ProfileData['role']
                       })}
                     >
                       <SelectTrigger>
@@ -259,7 +259,7 @@ const Profile: React.FC = () => {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="student">Student</SelectItem>
-                        <SelectItem value="counselor">Counselor</SelectItem>
+                        <SelectItem value="provider">Mental Health Provider</SelectItem>
                         <SelectItem value="peer_volunteer">Peer Volunteer</SelectItem>
                       </SelectContent>
                     </Select>

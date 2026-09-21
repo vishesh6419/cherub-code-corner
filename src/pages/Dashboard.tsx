@@ -150,13 +150,33 @@ export default function Dashboard() {
             <div>
               <p className="font-medium text-destructive">In case of emergency</p>
               <p className="text-sm text-muted-foreground">
-                Call National Suicide Prevention Lifeline: <span className="font-mono">988</span> or 
-                Campus Emergency: <span className="font-mono">911</span>
+                Tele-MANAS helpline: <span className="font-mono">14416</span> (24x7, free) or reach your
+                campus counselling centre.
               </p>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Virtual Clinic CTA */}
+      <div className="container mx-auto px-4">
+        <div className="mb-6 flex flex-col gap-4 rounded-2xl bg-gradient-primary p-6 text-white sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-start gap-3">
+            <Stethoscope className="mt-1 h-6 w-6 shrink-0" />
+            <div>
+              <p className="text-lg font-semibold">Create Your Own Virtual Clinic</p>
+              <p className="text-sm text-white/80">
+                Are you a psychologist, counsellor, therapist or doctor? Join the Campus Care directory and
+                start supporting students.
+              </p>
+            </div>
+          </div>
+          <Button variant="secondary" onClick={() => navigate("/provider-registration")} className="shrink-0">
+            Get started <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-6 md:pt-24">

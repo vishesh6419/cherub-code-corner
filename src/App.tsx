@@ -14,6 +14,8 @@ import CrisisSupport from "./pages/CrisisSupport";
 import Resources from "./pages/Resources";
 import Forum from "./pages/Forum";
 import Profile from "./pages/Profile";
+import ProviderRegistration from "./pages/ProviderRegistration";
+import Games from "./pages/Games";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,6 +38,8 @@ const App = () => (
             <Route path="/resources" element={<Resources />} />
             <Route path="/forum" element={<Forum />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/provider-registration" element={<ProviderRegistration />} />
+            <Route path="/relax" element={<Games />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

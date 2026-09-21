@@ -10,6 +10,7 @@ import {
   Activity,
   User,
   Home,
+  Gamepad2,
   Settings
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -29,6 +30,7 @@ const Navigation: React.FC = () => {
     { icon: AlertTriangle, label: 'Crisis Support', path: '/crisis-support' },
     { icon: BookOpen, label: 'Resources', path: '/resources' },
     { icon: Users, label: 'Forum', path: '/forum' },
+    { icon: Gamepad2, label: 'Relax Zone', path: '/relax' },
     { icon: User, label: 'Profile', path: '/profile' },
   ];
 

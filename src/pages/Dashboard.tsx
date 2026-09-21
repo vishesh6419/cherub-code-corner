@@ -17,6 +17,9 @@ import {
   Phone,
   Settings,
   TrendingUp,
+  Gamepad2,
+  Stethoscope,
+  ArrowRight,
   Clock
 } from "lucide-react";
 
@@ -56,11 +59,19 @@ export default function Dashboard() {
       urgent: false
     },
     {
-      title: "Book Counselor Appointment",
-      description: "Schedule a session with a professional counselor",
+      title: "Campus Care Booking",
+      description: "Book a session with a verified counsellor or psychologist",
       icon: Calendar,
       color: "text-green-500",
-      action: () => navigate("/appointments"),
+      action: () => navigate("/book-appointment"),
+      urgent: false
+    },
+    {
+      title: "Relax Zone",
+      description: "Light games and breathing exercises to unwind",
+      icon: Gamepad2,
+      color: "text-pink-500",
+      action: () => navigate("/relax"),
       urgent: false
     },
     {

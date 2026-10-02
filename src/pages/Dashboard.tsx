@@ -160,7 +160,7 @@ export default function Dashboard() {
 
       {/* Virtual Clinic CTA */}
       <div className="container mx-auto px-4">
-        <div className="mb-6 flex flex-col gap-4 rounded-2xl bg-gradient-primary p-6 text-white sm:flex-row sm:items-center sm:justify-between">
+        <div className="mb-6 flex flex-col gap-4 rounded-2xl bg-gradient-warm p-6 text-white shadow-lg sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-start gap-3">
             <Stethoscope className="mt-1 h-6 w-6 shrink-0" />
             <div>

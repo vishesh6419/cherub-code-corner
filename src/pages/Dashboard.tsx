@@ -18,6 +18,7 @@ import {
   Settings,
   TrendingUp,
   Gamepad2,
+  Smile,
   Stethoscope,
   ArrowRight,
   Clock
@@ -64,6 +65,14 @@ export default function Dashboard() {
       icon: Calendar,
       color: "text-green-500",
       action: () => navigate("/book-appointment"),
+      urgent: false
+    },
+    {
+      title: "Mood Tracker",
+      description: "Daily check-ins with AI (XGBoost) mood insights",
+      icon: Smile,
+      color: "text-amber-500",
+      action: () => navigate("/mood"),
       urgent: false
     },
     {

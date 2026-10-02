@@ -312,6 +312,57 @@ export type Database = {
         }
         Relationships: []
       }
+      mood_entries: {
+        Row: {
+          created_at: string | null
+          emotions: string[] | null
+          energy: number
+          entry_date: string
+          exercise_minutes: number
+          id: string
+          mood: number
+          note: string | null
+          screen_hours: number
+          sleep_hours: number
+          social_hours: number
+          stress: number
+          study_hours: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          emotions?: string[] | null
+          energy?: number
+          entry_date?: string
+          exercise_minutes?: number
+          id?: string
+          mood: number
+          note?: string | null
+          screen_hours?: number
+          sleep_hours?: number
+          social_hours?: number
+          stress?: number
+          study_hours?: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          emotions?: string[] | null
+          energy?: number
+          entry_date?: string
+          exercise_minutes?: number
+          id?: string
+          mood?: number
+          note?: string | null
+          screen_hours?: number
+          sleep_hours?: number
+          social_hours?: number
+          stress?: number
+          study_hours?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           college_name: string | null

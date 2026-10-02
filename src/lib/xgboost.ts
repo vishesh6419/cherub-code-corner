@@ -83,7 +83,7 @@ export class XGBRegressor {
   }
 
   private eval(n: Node, x: number[]): number {
-    while (!n.leaf) n = x[n.feature] <= n.threshold ? n.left : n.right;
+    while (n.leaf === false) n = x[n.feature] <= n.threshold ? n.left : n.right;
     return n.value;
   }
 

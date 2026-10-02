@@ -104,6 +104,15 @@ All colors MUST be HSL.
   }
 }
 
+@layer utilities {
+  .bg-gradient-warm {
+    background-image: var(--gradient-warm);
+  }
+  .bg-gradient-calming {
+    background-image: var(--gradient-calming);
+  }
+}
+
 @layer base {
   * {
     @apply border-border;

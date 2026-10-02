@@ -10,6 +10,7 @@ import {
   User,
   Home,
   Gamepad2,
+  Smile,
   Menu,
   Stethoscope,
 } from 'lucide-react';
@@ -42,6 +43,7 @@ const Navigation: React.FC = () => {
     { icon: BookOpen, label: 'Resources', path: '/resources' },
     { icon: Users, label: 'Forum', path: '/forum' },
     { icon: Gamepad2, label: 'Relax Zone', path: '/relax' },
+    { icon: Smile, label: 'Mood Tracker', path: '/mood' },
     { icon: User, label: 'Profile', path: '/profile' },
     { icon: Stethoscope, label: 'Virtual Clinic', path: '/provider-registration' },
   ];

@@ -76,6 +76,14 @@ export default function Dashboard() {
       urgent: false
     },
     {
+      title: "Emotion Check-in",
+      description: "Text, voice and face analysis with personalised support",
+      icon: Brain,
+      color: "text-primary",
+      action: () => navigate("/emotion-check"),
+      urgent: false
+    },
+    {
       title: "Relax Zone",
       description: "Light games and breathing exercises to unwind",
       icon: Gamepad2,

@@ -44,6 +44,7 @@ const Navigation: React.FC = () => {
     { icon: Users, label: 'Forum', path: '/forum' },
     { icon: Gamepad2, label: 'Relax Zone', path: '/relax' },
     { icon: Smile, label: 'Mood Tracker', path: '/mood' },
+    { icon: Brain, label: 'Emotion Check-in', path: '/emotion-check' },
     { icon: User, label: 'Profile', path: '/profile' },
     { icon: Stethoscope, label: 'Virtual Clinic', path: '/provider-registration' },
   ];

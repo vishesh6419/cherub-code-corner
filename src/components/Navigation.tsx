@@ -13,6 +13,7 @@ import {
   Smile,
   Menu,
   Stethoscope,
+  Heart,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -45,6 +46,7 @@ const Navigation: React.FC = () => {
     { icon: Gamepad2, label: 'Relax Zone', path: '/relax' },
     { icon: Smile, label: 'Mood Tracker', path: '/mood' },
     { icon: Brain, label: 'Emotion Check-in', path: '/emotion-check' },
+    { icon: Heart, label: 'Self-Care', path: '/self-care' },
     { icon: User, label: 'Profile', path: '/profile' },
     { icon: Stethoscope, label: 'Virtual Clinic', path: '/provider-registration' },
   ];

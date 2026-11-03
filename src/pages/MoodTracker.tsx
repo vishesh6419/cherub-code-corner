@@ -159,6 +159,18 @@ export default function MoodTracker() {
                   onClick={() => setEmotions((p) => p.includes(e) ? p.filter((x) => x !== e) : [...p, e])}>{e}</Badge>
               ))}
             </div>
+            <div>
+              <p className="text-sm mb-2">What's affecting your mood?</p>
+              <div className="flex flex-wrap gap-2">
+                {["Studies", "Relationships", "Sleep", "Family", "Health", "Money", "Career"].map((t) => {
+                  const tag = `#${t}`;
+                  return (
+                    <Badge key={t} variant={emotions.includes(tag) ? "secondary" : "outline"} className="cursor-pointer"
+                      onClick={() => setEmotions((p) => p.includes(tag) ? p.filter((x) => x !== tag) : [...p, tag])}>{tag}</Badge>
+                  );
+                })}
+              </div>
+            </div>
             <Textarea placeholder="Anything on your mind? (private)" value={note} onChange={(e) => setNote(e.target.value)} />
             <Button className="w-full" onClick={save} disabled={saving}>{saving ? "Saving..." : "Save today's mood"}</Button>
           </CardContent>

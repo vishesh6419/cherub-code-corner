@@ -42,6 +42,7 @@ const BookAppointment: React.FC = () => {
 
   const [providers, setProviders] = useState<Provider[]>([]);
   const [tab, setTab] = useState('all');
+  const [language, setLanguage] = useState('all');
   const [selectedProvider, setSelectedProvider] = useState<Provider | null>(null);
   const [appointmentDate, setAppointmentDate] = useState('');
   const [appointmentTime, setAppointmentTime] = useState('');
@@ -134,7 +135,10 @@ const BookAppointment: React.FC = () => {
   }
 
   const today = new Date().toISOString().split('T')[0];
-  const visible = tab === 'all' ? providers : providers.filter((p) => p.profession === tab);
+  const allLanguages = Array.from(new Set(providers.flatMap((p) => p.languages ?? []))).sort();
+  const visible = providers
+    .filter((p) => tab === 'all' || p.profession === tab)
+    .filter((p) => language === 'all' || (p.languages ?? []).includes(language));
 
   return (
     <div className="min-h-screen bg-gradient-subtle pb-24">
@@ -160,6 +164,16 @@ const BookAppointment: React.FC = () => {
             ))}
           </TabsList>
         </Tabs>
+
+        <div className="mb-6 max-w-xs">
+          <Select value={language} onValueChange={setLanguage}>
+            <SelectTrigger aria-label="Filter by language"><SelectValue placeholder="Language" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All languages</SelectItem>
+              {allLanguages.map((l) => <SelectItem key={l} value={l}>{l}</SelectItem>)}
+            </SelectContent>
+          </Select>
+        </div>
 
         <div className="grid gap-4 lg:grid-cols-3">
           <div className="lg:col-span-2 space-y-4">
@@ -255,7 +269,7 @@ const BookAppointment: React.FC = () => {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {(selectedProvider?.session_modes ?? ['video-call', 'in-person', 'phone-call']).map(
+                    {Array.from(new Set([...(selectedProvider?.session_modes ?? ['in-person']), 'video-call', 'audio-call', 'chat'])).map(
                       (m) => (
                         <SelectItem key={m} value={m}>
                           {m.replace('-', ' ')}

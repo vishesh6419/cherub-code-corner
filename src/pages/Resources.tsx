@@ -255,6 +255,27 @@ const Resources: React.FC = () => {
           </div>
         </div>
 
+        {(() => {
+          const QUOTES = [
+            ['You don\'t have to control your thoughts. You just have to stop letting them control you.', 'Dan Millman'],
+            ['Almost everything will work again if you unplug it for a few minutes, including you.', 'Anne Lamott'],
+            ['Small steps every day add up to big changes.', 'Unknown'],
+            ['You are allowed to be both a masterpiece and a work in progress.', 'Sophia Bush'],
+            ['Rest is not idleness; it is how we recharge to keep going.', 'Unknown'],
+            ['Your grades do not define your worth.', 'Unknown'],
+            ['Breathe. It\'s just a bad day, not a bad life.', 'Unknown'],
+          ];
+          const day = Math.floor(Date.now() / 86400000);
+          const [q, a] = QUOTES[day % QUOTES.length];
+          return (
+            <Card className="p-5 mb-6 bg-gradient-warm text-primary-foreground border-0 shadow-lg">
+              <p className="text-xs uppercase tracking-wide opacity-80 mb-1">Today's motivation</p>
+              <p className="text-lg font-medium">“{q}”</p>
+              <p className="text-sm opacity-80 mt-1">— {a}</p>
+            </Card>
+          );
+        })()}
+
         {/* Filters */}
         <Card className="p-4 mb-6">
           <div className="grid md:grid-cols-3 gap-4">

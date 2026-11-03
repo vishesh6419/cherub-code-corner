@@ -19,6 +19,7 @@ import Games from "./pages/Games";
 import MoodTracker from "./pages/MoodTracker";
 import NotFound from "./pages/NotFound";
 import EmotionCheck from "./pages/EmotionCheck";
+import SelfCare from "./pages/SelfCare";
 
 const queryClient = new QueryClient();
 
@@ -44,6 +45,7 @@ const App = () => (
             <Route path="/relax" element={<Games />} />
             <Route path="/mood" element={<MoodTracker />} />
             <Route path="/emotion-check" element={<EmotionCheck />} />
+            <Route path="/self-care" element={<SelfCare />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
